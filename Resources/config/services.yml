@@ -1,0 +1,9 @@
+services:
+    vkr_geolocation.bounding_box_finder:
+        class: VKR\GeolocationBundle\Services\BoundingBoxFinder
+    vkr_geolocation.doctrine_querier:
+        class: VKR\GeolocationBundle\Services\DoctrineQuerier
+        arguments:
+            - "@doctrine.orm.entity_manager"
+    vkr_geolocation.nearest_point_calculator:
+        class: VKR\GeolocationBundle\Services\NearestPointCalculator
