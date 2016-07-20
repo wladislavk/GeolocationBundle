@@ -116,9 +116,9 @@ Finally, we can test which point inside your query result is the nearest one.
 $calculator = $this->get('vkr_geolocation.nearest_point_calculator');
 $index = $calculator->findNearestPoint($lat, $lng, $result);
 $nearestPointCoords = [
-    'lat' => $result[$index]->getLat();
-    'lng' => $result[$index]->getLng();
-]
+    'lat' => $result[$index]->getLat(),
+    'lng' => $result[$index]->getLng(),
+];
 ```
 
 That's about it.
