@@ -3,38 +3,28 @@ namespace VKR\GeolocationBundle\Tests\Services;
 
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
+use PHPUnit\Framework\TestCase;
 use VKR\GeolocationBundle\Exception\InterfaceNotImplementedException;
 use VKR\GeolocationBundle\TestHelpers\DoctrineQuerierChild;
 use VKR\GeolocationBundle\TestHelpers\GeolocatableEntity;
 use VKR\GeolocationBundle\Entity\Perishable\BoundingBox;
 
-class DoctrineQuerierTest extends \PHPUnit_Framework_TestCase
+class DoctrineQuerierTest extends TestCase
 {
     /**
      * @var DoctrineQuerierChild
      */
-    protected $doctrineQuerier;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $entityManager;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $doctrineQuery;
+    private $doctrineQuerier;
 
     /**
      * @var BoundingBox
      */
-    protected $boundingBox;
+    private $boundingBox;
 
     public function setUp()
     {
-        $this->mockDoctrineQuery();
-        $this->mockEntityManager();
-        $this->doctrineQuerier = new DoctrineQuerierChild($this->entityManager);
+        $entityManager = $this->mockEntityManager();
+        $this->doctrineQuerier = new DoctrineQuerierChild($entityManager);
         $this->boundingBox = new BoundingBox(
             [
                 'min' => -5,
@@ -67,8 +57,8 @@ class DoctrineQuerierTest extends \PHPUnit_Framework_TestCase
 
     public function testInterfaceNotImplemented()
     {
-        $this->setExpectedException(InterfaceNotImplementedException::class);
-        $result = $this->doctrineQuerier->getRecords($this->boundingBox, \DateTime::class);
+        $this->expectException(InterfaceNotImplementedException::class);
+        $this->doctrineQuerier->getRecords($this->boundingBox, \DateTime::class);
     }
 
     public function testBoundingBoxConditions()
@@ -101,30 +91,21 @@ class DoctrineQuerierTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $conditions);
     }
 
-    protected function mockEntityManager()
+    private function mockEntityManager()
     {
-        $this->entityManager = $this
-            ->getMockBuilder(EntityManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->entityManager->expects($this->any())
-            ->method('createQuery')
-            ->will($this->returnValue($this->doctrineQuery));
+        $entityManager = $this->createMock(EntityManager::class);
+        $entityManager->method('createQuery')->willReturn($this->mockDoctrineQuery());
+        return $entityManager;
     }
 
-    protected function mockDoctrineQuery()
+    private function mockDoctrineQuery()
     {
-        $this->doctrineQuery = $this
-            ->getMockBuilder(AbstractQuery::class)
-            ->setMethods(['getResult', 'getScalarResult'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $this->doctrineQuery->expects($this->any())
-            ->method('getResult')
-            ->will($this->returnCallback([$this, 'getResultCallback']));
-        $this->doctrineQuery->expects($this->any())
-            ->method('getScalarResult')
-            ->will($this->returnCallback([$this, 'getScalarResultCallback']));
+        $doctrineQuery = $this->createMock(AbstractQuery::class);
+        $doctrineQuery->method('getResult')
+            ->willReturnCallback([$this, 'getResultCallback']);
+        $doctrineQuery->method('getScalarResult')
+            ->willReturnCallback([$this, 'getScalarResultCallback']);
+        return $doctrineQuery;
     }
 
     public function getResultCallback()

@@ -40,7 +40,7 @@ class NearestPointCalculator
      * @param GeolocatableEntityInterface $entity
      * @return float
      */
-    protected function getValueDistance($lat, $lng, GeolocatableEntityInterface $entity)
+    private function getValueDistance($lat, $lng, GeolocatableEntityInterface $entity)
     {
         return $this->getDistance($lat, $lng, $entity->getLat(), $entity->getLng());
     }
@@ -53,7 +53,7 @@ class NearestPointCalculator
      * @return float
      * @throws InvalidGeolocationValueException
      */
-    protected function getDistance($lat1deg, $lng1deg, $lat2deg, $lng2deg)
+    private function getDistance($lat1deg, $lng1deg, $lat2deg, $lng2deg)
     {
         if ($lat1deg < -90 || $lat1deg > 90) {
             throw new InvalidGeolocationValueException($lat1deg, 'latitude');

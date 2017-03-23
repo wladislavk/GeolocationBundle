@@ -1,16 +1,17 @@
 <?php
 namespace VKR\GeolocationBundle\Tests\Services;
 
+use PHPUnit\Framework\TestCase;
 use VKR\GeolocationBundle\Exception\InvalidGeolocationValueException;
 use VKR\GeolocationBundle\Services\NearestPointCalculator;
 use VKR\GeolocationBundle\TestHelpers\GeolocatableEntity;
 
-class NearestPointCalculatorTest extends \PHPUnit_Framework_TestCase
+class NearestPointCalculatorTest extends TestCase
 {
     /**
      * @var NearestPointCalculator
      */
-    protected $calculator;
+    private $calculator;
 
     public function setUp()
     {
@@ -48,7 +49,7 @@ class NearestPointCalculatorTest extends \PHPUnit_Framework_TestCase
             new GeolocatableEntity(100, 160),
             new GeolocatableEntity(0, -220),
         ];
-        $this->setExpectedException(InvalidGeolocationValueException::class);
-        $index = $this->calculator->findNearestPoint(0, 0, $data);
+        $this->expectException(InvalidGeolocationValueException::class);
+        $this->calculator->findNearestPoint(0, 0, $data);
     }
 }

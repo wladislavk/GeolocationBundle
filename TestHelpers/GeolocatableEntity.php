@@ -5,8 +5,8 @@ use VKR\GeolocationBundle\Interfaces\GeolocatableEntityInterface;
 
 class GeolocatableEntity implements GeolocatableEntityInterface
 {
-    protected $lat;
-    protected $lng;
+    private $lat;
+    private $lng;
 
     public function __construct($lat, $lng)
     {

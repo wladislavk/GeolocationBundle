@@ -6,11 +6,6 @@ use VKR\GeolocationBundle\Exception\InvalidGeolocationValueException;
 
 class BoundingBoxFinder
 {
-
-    public function __construct()
-    {
-    }
-
     /**
      * @param float $lat Latitude in degrees
      * @param float $lng Longitude in degrees
@@ -43,7 +38,7 @@ class BoundingBoxFinder
      * @param float $lng
      * @throws InvalidGeolocationValueException
      */
-    protected function checkLatAndLngForValidity($lat, $lng)
+    private function checkLatAndLngForValidity($lat, $lng)
     {
         if ($lat > 90 || $lat < -90) {
             throw new InvalidGeolocationValueException($lat, 'latitude');
@@ -58,7 +53,7 @@ class BoundingBoxFinder
      * @param float $lat
      * @return float
      */
-    protected function calculateAllowanceLng($allowanceLat, $lat)
+    private function calculateAllowanceLng($allowanceLat, $lat)
     {
         return round($allowanceLat * cos(deg2rad($lat)), 2);
     }
@@ -67,7 +62,7 @@ class BoundingBoxFinder
      * @param array $latPair
      * @return array
      */
-    protected function wrapLat(array $latPair)
+    private function wrapLat(array $latPair)
     {
         if ($latPair['max'] > 90) {
             $latPair['max'] = 90;
@@ -82,7 +77,7 @@ class BoundingBoxFinder
      * @param array $lngPairs
      * @return array
      */
-    protected function wrapLng(array $lngPairs)
+    private function wrapLng(array $lngPairs)
     {
         $lngPair = $lngPairs[0];
         if ($lngPair['min'] < -180) {
@@ -119,5 +114,4 @@ class BoundingBoxFinder
         }
         return $lngPairs;
     }
-
 }

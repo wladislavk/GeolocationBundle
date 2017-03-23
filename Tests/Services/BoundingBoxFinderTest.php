@@ -1,15 +1,16 @@
 <?php
 namespace VKR\GeolocationBundle\Tests\Services;
 
+use PHPUnit\Framework\TestCase;
 use VKR\GeolocationBundle\Exception\InvalidGeolocationValueException;
 use VKR\GeolocationBundle\Services\BoundingBoxFinder;
 
-class BoundingBoxFinderTest extends \PHPUnit_Framework_TestCase
+class BoundingBoxFinderTest extends TestCase
 {
     /**
      * @var BoundingBoxFinder
      */
-    protected $boundingBoxFinder;
+    private $boundingBoxFinder;
 
     public function setUp()
     {
@@ -72,7 +73,7 @@ class BoundingBoxFinderTest extends \PHPUnit_Framework_TestCase
             $lat = 100;
             $lng = 0;
             $allowance = 5;
-            $boundingBox = $this->boundingBoxFinder->setBoundingBox($lat, $lng, $allowance);
+            $this->boundingBoxFinder->setBoundingBox($lat, $lng, $allowance);
         } catch (InvalidGeolocationValueException $e) {
             $this->assertContains('Latitude', $e->getMessage());
             return;
@@ -86,7 +87,7 @@ class BoundingBoxFinderTest extends \PHPUnit_Framework_TestCase
             $lat = 0;
             $lng = 200;
             $allowance = 5;
-            $boundingBox = $this->boundingBoxFinder->setBoundingBox($lat, $lng, $allowance);
+            $this->boundingBoxFinder->setBoundingBox($lat, $lng, $allowance);
         } catch (InvalidGeolocationValueException $e) {
             $this->assertContains('Longitude', $e->getMessage());
             return;

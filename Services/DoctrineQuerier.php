@@ -69,7 +69,7 @@ class DoctrineQuerier
         return implode(' AND ', $conditions);
     }
 
-    protected function checkEntityInterface($entityClassName)
+    private function checkEntityInterface($entityClassName)
     {
         $reflection = new \ReflectionClass($entityClassName);
         $interfaceName = GeolocatableEntityInterface::class;
@@ -77,5 +77,4 @@ class DoctrineQuerier
             throw new InterfaceNotImplementedException($entityClassName, $interfaceName);
         }
     }
-
 }
