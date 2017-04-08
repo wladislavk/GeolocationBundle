@@ -10,6 +10,9 @@ class VKRGeolocationExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
+        $configuration = new Configuration();
+        $processedConfiguration = $this->processConfiguration($configuration, $configs);
+        $container->setParameter('vkr_geolocation', $processedConfiguration);
         $loader = new YamlFileLoader(
             $container,
             new FileLocator(__DIR__.'/../Resources/config')
