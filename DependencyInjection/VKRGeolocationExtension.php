@@ -12,7 +12,7 @@ class VKRGeolocationExtension extends Extension
     {
         $configuration = new Configuration();
         $processedConfiguration = $this->processConfiguration($configuration, $configs);
-        $container->setParameter('vkr_geolocation', $processedConfiguration);
+        $container->setParameter('vkr_geolocation.entity_manager_service', $processedConfiguration['entity_manager_service']);
         $loader = new YamlFileLoader(
             $container,
             new FileLocator(__DIR__.'/../Resources/config')

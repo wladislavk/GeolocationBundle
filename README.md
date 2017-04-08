@@ -123,6 +123,21 @@ $nearestPointCoords = [
 
 That's about it.
 
+Optional: defining the entity manager
+-------------------------------------
+
+If you are using a setup with multiple entity managers, you can define an optional
+parameter in ```config.yml```. Suppose that your manager is called "my", then add this
+to ```config.yml```:
+
+```
+vkr_geolocation:
+    entity_manager_service: "doctrine.orm.my_entity_manager"
+```
+
+This way, the ```doctrine_querier``` service will query the DB using the specified
+entity manager.
+
 API
 ===
 
